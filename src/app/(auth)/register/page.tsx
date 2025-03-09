@@ -48,14 +48,12 @@ const Register = () => {
     const accessToken = getLocalStorage(authKey);
 
     const res = await userRegister(formData, accessToken as string);
-
     if (res?.data?.user) {
       toast.success("Registration completed");
       router.push("/users");
+    } else if (res?.success === false) {
+      toast.error(res?.message);
     }
-
-    // Call API to register user
-    // router.push("/dashboard"); // Redirect after successful registration
   };
 
   return (

@@ -3,7 +3,8 @@
 import { authKey } from "@/constants/authKey";
 import { updatePassword } from "@/services/actions/Users";
 import { getLocalStorage } from "@/utils/local-storage";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export type TUpdatePasswordData = {
@@ -20,6 +21,14 @@ const UpdatePassword = () => {
   });
   const [error, setError] = useState<string>("");
   const accessToken = getLocalStorage(authKey);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!accessToken) {
+      toast.error("Please login first.");
+      router.push("/login");
+    }
+  }, [accessToken, router]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -34,12 +43,11 @@ const UpdatePassword = () => {
       setError("Passwords do not match!");
       return;
     }
-
     setError("");
+
     const res = await updatePassword(formData, accessToken as string);
-    console.log(res);
     if (res?.success === false) {
-      toast.error(res?.message);
+      toast.error("Incorrect current password");
     }
   };
 

@@ -10,14 +10,13 @@ export default function Home() {
 
   useEffect(() => {
     const accessToken = getLocalStorage(authKey);
-    console.log("Access Token:", accessToken);
 
     if (!accessToken) {
       router.push("/login");
     } else {
       router.push("/users");
     }
-  }, []);
+  }, [router]);
 
   return <div>Loading...</div>;
 }

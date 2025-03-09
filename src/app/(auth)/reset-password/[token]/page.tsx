@@ -10,8 +10,6 @@ export type TResetPasswordData = {
 };
 
 const ForgotPassword = () => {
-  // const [newPassword, setNewPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const { token } = useParams();
 
   const [formData, setFormData] = useState<TResetPasswordData>({

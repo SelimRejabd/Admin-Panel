@@ -3,7 +3,7 @@ import { authKey } from "@/constants/authKey";
 import { updateUser } from "@/services/actions/Users";
 import { getLocalStorage } from "@/utils/local-storage";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export type TUpdateData = {
@@ -20,6 +20,15 @@ const EditUser = () => {
     phone: "",
   });
 
+  useEffect(() => {
+    const accessToken = getLocalStorage(authKey);
+
+    if (!accessToken) {
+      toast.error("Please login first.");
+      router.push("/login");
+    }
+  }, [router]);
+
   const [error, setError] = useState<string>("");
 
   const handleChange = (
@@ -34,7 +43,6 @@ const EditUser = () => {
     setError("");
 
     const accessToken = getLocalStorage(authKey);
-    console.log(formData);
 
     const res = await updateUser(accessToken as string, formData);
 

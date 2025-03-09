@@ -8,9 +8,8 @@ const ForgotPassword = () => {
 
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(email);
     const res = await forgetPassword({ email });
-    toast.success(res.status);
+    toast.success(res?.status);
   };
 
   return (

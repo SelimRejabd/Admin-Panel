@@ -1,4 +1,4 @@
-"use client"; // 👈 Ensures it runs on the client-side
+"use client"; 
 
 import { authKey } from "@/constants/authKey";
 import { getAllUsers } from "@/services/actions/Users";
@@ -25,7 +25,7 @@ const Users = () => {
     const fetchUsers = async () => {
       const accessToken = getLocalStorage(authKey);
       if (!accessToken) {
-        setError("No access token found. Please login.");
+        setError("Please login.");
         setLoading(false);
         return;
       }
@@ -36,7 +36,7 @@ const Users = () => {
         const usersData = res?.data?.users;
 
         setUsers(usersData || []);
-      } catch (err) {
+      } catch {
         setError("Failed to fetch users.");
       } finally {
         setLoading(false);
@@ -47,7 +47,12 @@ const Users = () => {
   }, []);
 
   if (loading) return <p>Loading users...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error)
+    return (
+      <p className=" ml-140 text-center font-bold  mt-40 bg-red-600 w-200 p-5 text-white">
+        {error}
+      </p>
+    );
 
   return (
     <main className="flex">
